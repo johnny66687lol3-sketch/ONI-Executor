@@ -3,42 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONI CLUB | V2.2 KEYLESS EXECUTOR</title>
+    
+    <title>ONI CLUB | V2.3 KEYLESS EXECUTOR - OFFICIAL</title>
+    <meta name="description" content="ONI CLUB V2.3 - 最強大的免費 Keyless Executor。支持 93% UNC 兼容性、Byfron Bypass。由 Akos1A 開發。">
+    <meta name="keywords" content="ONI CLUB, ONI Executor, Roblox Script, Keyless, V2.3, Akos1A">
+    <meta name="google-site-verification" content="這裡貼上你的驗證碼" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@400;700&family=Roboto+Mono:wght@400;900&display=swap');
         
-        :root {
-            --oni-red: #ff0000;
-            --oni-dark: #050505;
-        }
+        :root { --oni-red: #ff0000; --oni-dark: #050505; }
+        body { background-color: var(--oni-dark); color: #ffffff; font-family: 'JetBrains Mono', monospace; overflow-x: hidden; scroll-behavior: smooth; }
 
-        body {
-            background-color: var(--oni-dark);
-            color: #ffffff;
-            font-family: 'JetBrains Mono', monospace;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+        /* 標題效果 (保留霓虹) */
+        .hero-title { font-family: 'Orbitron', sans-serif; line-height: 0.9; text-transform: uppercase; font-style: italic; font-weight: 900; }
+        .oni-glow { text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); }
 
-        .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            line-height: 0.9;
-            text-transform: uppercase;
-            font-style: italic;
-            font-weight: 900;
-        }
-
-        /* 移植 image_94bfc9.png 的硬核直角風格 */
+        /* 硬核直角 ImGui 風格卡片 (移植自舊圖) */
         .eu-card {
-            border: 1px solid #ff0000;
-            background: rgba(10, 10, 10, 0.6);
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-            border-radius: 0 !important;
+            border: 1px solid var(--oni-red); /* 清晰的紅色邊框 */
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 0 !important; /* 強制直角，無圓角 */
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Roboto Mono', monospace; /* ImGui 風格字體 */
         }
-        .eu-card:hover { box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+        .eu-card:hover {
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5); /* 強烈發光 */
+            transform: translateY(-5px);
+        }
+
+        /* 硬核 ImGui 空心大數字 (參考 螢幕擷取畫面 2026-03-30 195914.png) */
         .eu-big-num { 
             position: absolute;
             right: -10px;
@@ -46,54 +42,51 @@
             font-size: 8rem;
             font-weight: 900;
             font-style: italic;
-            color: rgba(255, 0, 0, 0.05);
             pointer-events: none;
+            /* 強制設定為清晰的紅色空心樣式，滿足舊圖視覺，並關閉發光 */
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 0, 0, 0.1); 
+            text-shadow: none !important;
         }
 
-        /* 移植 螢幕擷取畫面 2026-03-30 195929.png 的打勾樣式 */
-        .check-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #555;
-            font-weight: bold;
-            font-size: 0.875rem;
-        }
-        .check-item i { color: var(--oni-red); }
-
+        /* 下載按鈕 (直角) */
         .btn-download {
-            background-color: var(--oni-red);
+            background: var(--oni-red);
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
             font-style: italic;
             border-radius: 0 !important;
-            transition: 0.3s;
+            transition: 0.4s;
+            text-transform: uppercase;
         }
-        .btn-download:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-        }
+        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 35px rgba(255, 0, 0, 0.6); }
 
-        .unc-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .status-pass { color: #00ff00; }
-        .status-fail { color: #ff0000; }
+        /* UNC 表格樣式 */
+        .unc-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.2s; }
+        .unc-table tr:hover { background: rgba(255, 0, 0, 0.05); }
+        .status-pass { color: #00ff00; font-weight: 900; }
+        .status-fail { color: #ff0000; font-weight: 900; }
+
+        /* 打勾標籤樣式 (直角) */
+        .check-item { display: flex; align-items: center; gap: 8px; color: #666; font-weight: bold; font-size: 0.875rem; }
+        .check-item i { color: var(--oni-red); }
     </style>
 </head>
 <body>
 
-    <nav class="fixed w-full z-50 bg-[#050505]/95 border-b border-white/5 py-4">
+    <nav class="fixed w-full z-50 bg-[#050505]/95 border-b border-white/5 py-4 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <img src="https://github.com/johnny66687lol3-sketch/ONI/blob/main/ONI%20Club.jpg?raw=true" 
-                     class="w-10 h-10 rounded-full border border-red-600/40 shadow-[0_0_10px_rgba(255,0,0,0.5)]" alt="ONI Logo">
-                <h2 class="text-xl font-black italic tracking-tighter uppercase" style="font-family: 'Orbitron', sans-serif;">
+                     class="w-10 h-10 rounded-full border border-red-600/40" alt="ONI Logo">
+                <h2 class="text-xl font-black italic tracking-tighter" style="font-family: 'Orbitron', sans-serif;">
                     ONI <span class="text-red-600">CLUB</span>
                 </h2>
             </div>
             <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                <a href="#" class="hover:text-red-600 transition">首頁</a>
-                <a href="#unc" class="hover:text-red-600 transition">UNC 報告</a>
-                <a href="#features" class="hover:text-red-600 transition">功能</a>
+                <a href="#" class="hover:text-red-600">Home</a>
+                <a href="#unc" class="hover:text-red-600">UNC Status</a>
+                <a href="#features" class="hover:text-red-600">Features</a>
                 <a href="https://discord.gg/ehsESZPQzj" target="_blank" class="bg-red-600 text-white px-4 py-1 hover:bg-red-700 transition">JOIN DISCORD</a>
             </div>
         </div>
@@ -101,45 +94,45 @@
 
     <section class="pt-48 pb-32 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
         <div class="space-y-8 z-10">
-            <div class="inline-block bg-red-600 px-6 py-1 text-[10px] font-black italic uppercase tracking-widest">Free & Keyless // Byfron Bypass Ready</div>
-            <h1 class="text-7xl md:text-9xl hero-title">NO KEYS.<br><span class="text-red-600">JUST POWER.</span></h1>
+            <div class="inline-block bg-red-600 px-6 py-1 text-[10px] font-black italic uppercase tracking-widest text-white rounded-0">Free & Keyless // V2.3 RELEASE</div>
+            <h1 class="text-7xl md:text-9xl hero-title rounded-0">NO KEYS.<br><span class="text-red-600 oni-glow">JUST POWER.</span></h1>
             <p class="text-gray-400 text-lg max-w-md border-l-2 border-red-600 pl-6 italic">
-                ONI Club V2.2 專為頂級玩家打造。免 Key、免廣告，提供最強大的 93% UNC 兼容性。
+                ONI Club V2.3 專為頂級玩家打造。提供最強大的 93% UNC 兼容性與 Byfron Bypass 技術。
             </p>
             <div class="flex flex-wrap items-center gap-8">
                 <a href="https://github.com/johnny66687lol3-sketch/ONI-Executor-1/releases/download/1/ONI.Executor.zip" 
-                   class="btn-download px-10 py-5 text-xl text-white">DOWNLOAD V2.2</a>
-                <div class="flex gap-6">
-                    <div class="check-item"><i class="fa-solid fa-check"></i> No Ads</div>
-                    <div class="check-item"><i class="fa-solid fa-check"></i> No Keys</div>
+                   class="btn-download px-10 py-5 text-xl text-white">DOWNLOAD V2.3</a>
+                <div class="flex gap-6 rounded-0">
+                    <div class="check-item"><i class="fa-solid fa-check rounded-0"></i> No Ads</div>
+                    <div class="check-item"><i class="fa-solid fa-check rounded-0"></i> No Keys</div>
                 </div>
             </div>
         </div>
         
         <div class="relative group">
             <div class="absolute -inset-10 bg-red-600/10 blur-3xl rounded-full"></div>
-            <div class="relative border border-white/10 p-2 bg-[#0a0a0a] shadow-2xl">
-                <div class="absolute top-4 left-4 bg-red-600 px-3 py-1 font-black italic text-xs z-10">V2.2 RELEASE</div>
-                <img src="https://github.com/johnny66687lol3-sketch/ONI/blob/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-03-30%20194917.png?raw=true" 
-                     alt="ONI Suite Preview" class="w-full h-auto border border-white/5 group-hover:scale-[1.02] transition duration-500">
+            <div class="relative border border-white/10 p-2 bg-[#0a0a0a] shadow-2xl rounded-0">
+                <div class="absolute top-4 left-4 bg-red-600 px-3 py-1 font-black italic text-xs z-10 rounded-0">V2.3 PREVIEW</div>
+                <img src="https://github.com/johnny66687lol3-sketch/ONI/blob/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202026-03-31%20213223.png?raw=true" 
+                     alt="ONI V2.3" class="w-full h-auto border border-white/5 transition duration-500 group-hover:scale-[1.02] rounded-0">
             </div>
         </div>
     </section>
 
     <section id="unc" class="py-24 px-6 max-w-5xl mx-auto border-t border-white/5">
-        <div class="flex justify-between items-end mb-10 border-b border-red-600/30 pb-6">
+        <div class="flex justify-between items-end mb-10 border-b border-red-600/30 pb-6 rounded-0">
             <h2 class="text-4xl font-black italic uppercase" style="font-family: 'Orbitron', sans-serif;">UNC <span class="text-red-600">REPORT</span></h2>
             <div class="text-right">
                 <span class="text-4xl font-black text-red-600">93%</span>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Total Score</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold italic">Execution Score</p>
             </div>
         </div>
-        <table class="w-full text-left unc-table font-bold italic">
+        <table class="w-full text-left unc-table font-bold italic rounded-0">
             <tbody class="text-sm">
-                <tr><td class="py-4">getgenv / getreg</td><td class="py-4 text-right status-pass text-[#00ff00]">[ PASSED ]</td></tr>
-                <tr><td class="py-4">loadstring</td><td class="py-4 text-right status-pass text-[#00ff00]">[ PASSED ]</td></tr>
-                <tr><td class="py-4">hookmetamethod</td><td class="py-4 text-right status-pass text-[#00ff00]">[ PASSED ]</td></tr>
-                <tr><td class="py-4 text-gray-600">gethiddenproperty</td><td class="py-4 text-right status-fail text-[#ff0000]">[ FAILED ]</td></tr>
+                <tr><td class="py-4 px-4">getgenv / getreg</td><td class="py-4 px-4 text-right status-pass">[ PASSED ]</td></tr>
+                <tr><td class="py-4 px-4">loadstring / HttpGet</td><td class="py-4 px-4 text-right status-pass">[ PASSED ]</td></tr>
+                <tr><td class="py-4 px-4">hookmetamethod</td><td class="py-4 px-4 text-right status-pass">[ PASSED ]</td></tr>
+                <tr><td class="py-4 px-4 text-gray-600">gethiddenproperty</td><td class="py-4 px-4 text-right status-fail">[ FAILED ]</td></tr>
             </tbody>
         </table>
     </section>
@@ -148,31 +141,41 @@
         <div class="eu-card p-10 relative overflow-hidden group">
             <div class="eu-big-num">01</div>
             <div class="w-12 h-1 bg-red-600 mb-6"></div>
-            <h3 class="text-2xl font-black italic mb-4">KEYLESS SYSTEM</h3>
-            <p class="text-gray-500 text-sm italic leading-relaxed">首創全自動注入，無需通過任何第三方廣告網址獲取 Key。開啟即用，節省寶貴的遊戲時間。</p>
+            <h3 class="text-2xl font-black italic mb-4">KEYLESS V2.3</h3>
+            <p class="text-gray-500 text-sm italic leading-relaxed">首創全自動注入，無需通過任何第三方廣告網址。開啟即用，專為 V2.3 優化。</p>
         </div>
         <div class="eu-card p-10 relative overflow-hidden group">
             <div class="eu-big-num">02</div>
             <div class="w-12 h-1 bg-red-600 mb-6"></div>
             <h3 class="text-2xl font-black italic mb-4">93% UNC SCORE</h3>
-            <p class="text-gray-500 text-sm italic leading-relaxed">強大的環境兼容性，支持 93% 的通用函式庫 (UNC)，完美運行所有主流 UI 與腳本。</p>
+            <p class="text-gray-500 text-sm italic leading-relaxed">強大的環境兼容性，支持絕大多數通用函式庫，完美運行主流腳本。</p>
         </div>
         <div class="eu-card p-10 relative overflow-hidden group">
             <div class="eu-big-num">03</div>
             <div class="w-12 h-1 bg-red-600 mb-6"></div>
             <h3 class="text-2xl font-black italic mb-4">BYFRON BYPASS</h3>
-            <p class="text-gray-500 text-sm italic leading-relaxed">專為 Hyperion/Byfron 環境優化的驅動層注入技術，大幅降低偵測風險，穩定防封。</p>
+            <p class="text-gray-500 text-sm italic leading-relaxed">驅動層注入技術，大幅降低被偵測風險，在 Byfron 環境下保持穩定。</p>
         </div>
     </section>
 
     <footer class="py-16 border-t border-white/5 bg-[#030303] text-center">
         <div class="flex justify-center gap-10 text-2xl mb-8">
-            <a href="https://discord.gg/ehsESZPQzj" target="_blank" class="text-gray-600 hover:text-red-600 transition"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://www.youtube.com/@oniclub-roblox" target="_blank" class="text-gray-600 hover:text-red-600 transition"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://github.com/johnny66687lol3-sketch" target="_blank" class="text-gray-600 hover:text-red-600 transition"><i class="fa-brands fa-github"></i></a>
+            <a href="https://discord.gg/ehsESZPQzj" target="_blank" class="text-gray-600 hover:text-red-600 transition hover:scale-110"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://www.youtube.com/@oniclub-roblox" target="_blank" class="text-gray-600 hover:text-red-600 transition hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://github.com/johnny66687lol3-sketch" target="_blank" class="text-gray-600 hover:text-red-600 transition hover:scale-110"><i class="fa-brands fa-github"></i></a>
         </div>
-        <p class="text-gray-600 text-[10px] uppercase tracking-[0.4em] font-bold">© 2026 ONI CLUB EXECUTOR. ALL RIGHTS RESERVED.</p>
+        <p class="text-gray-600 text-[10px] uppercase tracking-[0.4em] font-bold">© 2026 ONI CLUB EXECUTOR. BY AKOS1A. ALL RIGHTS RESERVED.</p>
+        <p class="text-gray-800 text-[10px] font-bold uppercase tracking-widest mt-2">getoniclub.com | V2.3 KEYLESS</p>
     </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 
 </body>
 </html>
